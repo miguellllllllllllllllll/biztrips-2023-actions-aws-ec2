@@ -1,0 +1,32 @@
+{
+  "family": "biztrips",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::YOUR_ACCOUNT_ID:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "biztrips",
+      "image": "YOUR_ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/biztrips:latest",
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "repositoryCredentials": {
+        "credentialsParameter": "arn:aws:secretsmanager:eu-central-1:YOUR_ACCOUNT_ID:secret:dockerhub-credentials"
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/biztrips",
+          "awslogs-region": "eu-central-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
